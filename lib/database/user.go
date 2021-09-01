@@ -11,3 +11,12 @@ func CreateUser(user *models.Users) error {
 	}
 	return nil
 }
+
+func GetUsers() (interface{}, error) {
+	var users []models.Users
+
+	if err := config.DB.Table("users").Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
+}
