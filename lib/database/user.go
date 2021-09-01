@@ -1,8 +1,8 @@
 package database
 
 import (
-	"users-api/models"
 	"users-api/config"
+	"users-api/models"
 )
 
 func CreateUser(user *models.Users) error {
@@ -19,4 +19,24 @@ func GetUsers() (interface{}, error) {
 		return nil, err
 	}
 	return users, nil
+}
+
+func UpdateUserById(id int, user *models.Users) error {
+	var users models.Users
+	if err := config.DB.Table("users").First(&users, id).Error; err != nil {
+		return err
+	}
+	err := config.DB.Table("users").Where("id = ?", id).Updates(user).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DeleteUserById(id int) error {
+	var user models.Users
+	if err := config.DB.Table("users").Where("id = ?", id).Delete(&user).Error; err != nil {
+		return err
+	}
+	return nil
 }
