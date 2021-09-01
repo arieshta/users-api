@@ -2,6 +2,7 @@ package database
 
 import (
 	"users-api/models"
+	"users-api/config"
 )
 
 func CreateUser(user *models.Users) error {
