@@ -37,11 +37,26 @@ func GetUsersController(c echo.Context) error {
 }
 
 func GetUserById(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, map[string]string{
+			"message": "fail to fetch data",
+		})
+	}
 
 	var user models.Users
 
-	
+	tx := config.DB.Find(&user, id)
+	if tx.Error != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, map[string]string{
+			"message": "false parameter",
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success get data",
+		"book":    user,
+	})
+
 }
 
 func UpdateUserByIdController(c echo.Context) error {
