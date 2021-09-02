@@ -36,6 +36,14 @@ func GetUsersController(c echo.Context) error {
 	})
 }
 
+func GetUserById(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	var user models.Users
+
+	
+}
+
 func UpdateUserByIdController(c echo.Context) error {
 	var user models.Users
 	c.Bind(&user)
